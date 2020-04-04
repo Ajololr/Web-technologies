@@ -16,19 +16,26 @@
           <h2 class="info-block__description">Hello, glad to see you here! I'm</h2>
           <h1 class="info-block__name">Ilya Androsov</h1>
         </div>
-        <a href="#contact-me" class="intro-block__button">Contact me</a>
+        <a href="#lab-2" class="intro-block__button">Go to lab 2</a>
       </div>
-      <form action="" id="contact-me" class="form-container">
-        <h2 class="form-container__header">Contact me</h2>
-        <label class="form-container__label" for="name">Your name:</label>
-        <input class="form-container__input" type="text" name="contact-info" id="name">
-        <label class="form-container__label" for="tel">Your telephone:</label>
-        <input class="form-container__input" type="tel" name="contact-info" id="tel">
-        <label class="form-container__label" for="email">Your mail:</label>
-        <input class="form-container__input" type="email" name="contact-info" id="email">
-        <label class="form-container__label" for="message">Enter message:</label>
-        <textarea class="form-container_message" name="message" id="message" cols="60" rows="10"></textarea>
+      <form action="<?php $_PHP_SELF ?>" method="GET" id="lab-2" class="form-container">
+        <h2 class="form-container__header">Lab 2, variant 1</h2>
+        <label class="form-container__label" for="cities-input">Enter cities sequence:</label>
+        <textarea class="form-container_message" name="cities-input" id="cities-input" cols="60" rows="10"></textarea>
         <input class="form-container__submit" type="submit" value="Send">
+        <?php
+          $indexName = "cities-input";
+          if( $_GET[$indexName] ) {
+            $inputString = strtolower($_GET[$indexName]);
+            $citiesArray = preg_split("/[\s,]+/", $inputString);
+            sort($citiesArray, SORT_STRING);
+            $answer = "";
+            for ($i = 0; $i < count($citiesArray); $i++) {
+              $answer .= ucfirst($citiesArray[$i]) . " ";
+            }
+            echo "<textarea class='form-container_message' name='cities-output' id='cities-output' cols='60' rows='10'>$answer</textarea>";
+          }
+        ?>
       </form>
     </main>
     <footer class="footer-wrapper">
