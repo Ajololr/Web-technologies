@@ -8,6 +8,9 @@
 </head>
   <body>
     <main>
+      <?php 
+        include './Nav.php';
+      ?>
       <div class="intro-block">
         <div class="info-block">
           <h2 class="info-block__description">Hello, glad to see you here! I'm</h2>

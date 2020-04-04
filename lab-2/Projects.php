@@ -8,6 +8,9 @@
   <title>About</title>
 </head>
   <body>
+    <?php 
+      include './Nav.php';
+    ?>
     <main class="projects-block">
       <h1 class="projects-block__header">My completed projects<br>Just click on the image</h1>
       <section class="projects-block__proj">

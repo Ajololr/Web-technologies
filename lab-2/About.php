@@ -8,6 +8,9 @@
   <title>About</title>
 </head>
   <body>
+    <?php 
+      include './Nav.php';
+    ?>
     <main class="about-block">
       <h1 class="about-block__header">About me</h1>
       <section class="about-block__section">
