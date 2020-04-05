@@ -24,14 +24,22 @@
         <textarea class="form-container_message" name="cities-input" id="cities-input" cols="60" rows="10"></textarea>
         <input class="form-container__submit" type="submit" value="Send">
         <?php
+          function mb_ucfirst($string, $encoding)
+          {
+              $strlen = mb_strlen($string, $encoding);
+              $firstChar = mb_substr($string, 0, 1, $encoding);
+              $then = mb_substr($string, 1, $strlen - 1, $encoding);
+              return mb_strtoupper($firstChar, $encoding) . $then;
+          }
+
           $indexName = "cities-input";
           if( $_GET[$indexName] ) {
-            $inputString = strtolower($_GET[$indexName]);
+            $inputString = mb_strtolower($_GET[$indexName],"utf8");
             $citiesArray = preg_split("/[\s,]+/", $inputString);
             sort($citiesArray, SORT_STRING);
             $answer = "";
             for ($i = 0; $i < count($citiesArray); $i++) {
-              $answer .= ucfirst($citiesArray[$i]) . " ";
+              $answer .= mb_ucfirst($citiesArray[$i],"utf8") . " ";
             }
             echo "<textarea class='form-container_message' name='cities-output' id='cities-output' cols='60' rows='10'>$answer</textarea>";
           }
