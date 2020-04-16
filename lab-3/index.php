@@ -40,14 +40,15 @@
             }
           }
         ?>
-        <form action="<?php $_PHP_SELF ?>" method="GET" class="list-container">
+        <ul class="list-container">
           <?php
             $itemInfo = '';
             if (($inputFile = fopen("items.csv", "r")) !== FALSE) {
               $namesList = '';
+              $index = 0;
               while (($data = fgetcsv($inputFile, 1000, ",")) !== FALSE) {		
-                $namesList .= "<input class=\"list-container__item\" type=\"submit\" name=\"$data[1]\" value=\"$data[1]\"></input>";
-                if ( isset($_GET[$data[1]]) ) {
+                $namesList .= "<a class=\"list-container__item\" href=\"http://localhost/Web-technologies/lab-3/?index=$index\">$data[1]</a>";
+                if ( isset($_GET['index']) && intval($_GET['index']) === $index) {
                   $itemInfo = "<div class=\"form-container\">";
                   $itemInfo .= "<span class=\"form-container__label\">Id: $data[0]</span>";
                   $itemInfo .= "<span class=\"form-container__label\">Name: $data[1]</span>";
@@ -57,6 +58,7 @@
                   $itemInfo .= "<p class=\"form-container__label\">Description: $data[3]</p>";
                   $itemInfo .= "</div>";
                 }
+                $index++;
               }
               fclose($inputFile);
               if ($namesList !== '') {
@@ -65,7 +67,7 @@
             }
 
           ?>
-        </form>
+        </ul>
         <?php
           if (isset($itemInfo)) echo $itemInfo;
         ?>
