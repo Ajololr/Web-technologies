@@ -18,41 +18,40 @@
         </div>
         <a href="#lab-3" class="intro-block__button">Go to lab 3</a>
       </div>
-      <form action="<?php $_PHP_SELF ?>" method="POST" id="lab-3" class="form-container">
+      <div class="lab-container">
         <h2 class="form-container__header">Lab 3, variant 1</h2>
-        <label class="form-container__label" for="id-input">Enter id:</label>
-        <input type="text" name="id-input" id="id-input">
-        <label class="form-container__label" for="name-input">Enter name:</label>
-        <input type="text" name="name-input" id="name-input">
-        <label class="form-container__label" for="price-input">Enter price:</label>
-        <input type="number" name="price-input" id="price-input">
-        <label class="form-container__label" for="description-input">Add description:</label>
-        <textarea class="form-container_message" name="description-input" id="description-input" cols="60" rows="10"></textarea>
-        <input class="form-container__submit" type="submit" value="Add to list">
+        <form action="<?php $_PHP_SELF ?>" method="POST" id="lab-3" class="form-container">
+          <label class="form-container__label" for="id">Enter id:</label>
+          <input type="text" name="id" id="id" required>
+          <label class="form-container__label" for="name">Enter name:</label>
+          <input type="text" name="name" id="name" required>
+          <label class="form-container__label" for="price">Enter price:</label>
+          <input type="number" name="price" id="price" required>
+          <label class="form-container__label" for="description">Add description:</label>
+          <textarea class="form-container_message" name="description" id="description" cols="60" rows="10" required></textarea>
+          <input class="form-container__submit" type="submit" value="Add to list">
+        </form>
         <?php
-
-          function mb_ucfirst($string, $encoding): string {
-            $strlen = mb_strlen($string, $encoding);
-            $firstChar = mb_substr($string, 0, 1, $encoding);
-            $then = mb_substr($string, 1, $strlen - 1, $encoding);
-            return mb_strtoupper($firstChar, $encoding) . $then;
-          }
-
-          $indexName = "cities-input";
-          if( isset($_GET[$indexName]) ) {
-            $inputString = mb_strtolower($_GET[$indexName], "utf8");
-            $citiesArray = preg_split("/[\s,]+/", $inputString);
-            $citiesArray = array_unique($citiesArray);
-            sort($citiesArray, SORT_STRING);
-            $answer = "";
-            for ($i = 0; $i < count($citiesArray); $i++) {
-              $answer .= mb_ucfirst($citiesArray[$i], "utf8") . " ";
+          if( isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["price"]) && isset($_POST["description"])
+              && trim($_POST["id"]) !== '' && trim($_POST["name"]) !== '' && trim($_POST["description"]) !== '' ) {
+            if (($outputFile = fopen("items.csv", "a")) !== FALSE) {
+              fputcsv($outputFile, $_POST);
+              fclose($outputFile);
             }
-            echo "<label class='form-container__label' for='cities-output'>Sorted cities sequence:</label><textarea class='form-container_message' name='cities-output' id='cities-output' cols='60' rows='10'>$answer</textarea>";
           }
 
+          if (($h = fopen("items.csv", "r")) !== FALSE) {
+            $namesList = '';
+            while (($data = fgetcsv($h, 1000, ",")) !== FALSE) {		
+              // TODO
+            }
+            fclose($h);
+            if ($namesList !== '') {
+              // TODO
+            }
+          }
         ?>
-      </form>
+      </div>
     </main>
     <footer class="footer-wrapper">
       <div class="socials-block">
