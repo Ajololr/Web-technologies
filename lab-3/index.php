@@ -39,17 +39,35 @@
               fclose($outputFile);
             }
           }
+        ?>
+        <form action="<?php $_PHP_SELF ?>" method="GET" class="list-container">
+          <?php
+            $itemInfo = '';
+            if (($inputFile = fopen("items.csv", "r")) !== FALSE) {
+              $namesList = '';
+              while (($data = fgetcsv($inputFile, 1000, ",")) !== FALSE) {		
+                $namesList .= "<input class=\"list-container__item\" type=\"submit\" name=\"$data[1]\" value=\"$data[1]\"></input>";
+                if ( isset($_GET[$data[1]]) ) {
+                  $itemInfo = "<div class=\"form-container\">";
+                  $itemInfo .= "<span class=\"form-container__label\">Id: $data[0]</span>";
+                  $itemInfo .= "<span class=\"form-container__label\">Name: $data[1]</span>";
+                  $itemInfo .= "<span class=\"form-container__label\">Cost: $data[2]</span>";
+                  $salePrice = round($data[2] * 0.75, 2);
+                  $itemInfo .= "<span class=\"form-container__label\">Cost with sale: $salePrice</span>";
+                  $itemInfo .= "<p class=\"form-container__label\">Description: $data[3]</p>";
+                  $itemInfo .= "</div>";
+                }
+              }
+              fclose($inputFile);
+              if ($namesList !== '') {
+                echo $namesList;
+              }
+            }
 
-          if (($h = fopen("items.csv", "r")) !== FALSE) {
-            $namesList = '';
-            while (($data = fgetcsv($h, 1000, ",")) !== FALSE) {		
-              // TODO
-            }
-            fclose($h);
-            if ($namesList !== '') {
-              // TODO
-            }
-          }
+          ?>
+        </form>
+        <?php
+          if (isset($itemInfo)) echo $itemInfo;
         ?>
       </div>
     </main>
