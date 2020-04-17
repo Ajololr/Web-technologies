@@ -21,24 +21,26 @@
       <form action="<?php $_PHP_SELF ?>" method="GET" id="lab-4" class="form-container">
         <h2 class="form-container__header">Lab 4, variant 1</h2>
         <label class="form-container__label" for="name-input">Enter name (e.g. Ilya, Ilya.Androsov):</label>
-        <input type="text" name="name-input" id="name-input">
+        <input type="text" name="name-input" id="name-input" require>
         <label class="form-container__label" for="email-input">Enter mail (e.g @gmail.com):</label>
-        <input type="email" name="email-input" id="email-input">
+        <input type="text" name="email-input" id="email-input" require>
         <input class="form-container__submit" type="submit" value="Check">
       <?php
 
-        function checkEmail($Email) {
-          return preg_match("/[\S]+(.[\S]+)*@[\w]+(.[\w]+)+/", $Email) === 1;
+        function isValidEmail($Email) {
+          return preg_match("/^\S+(\.\S+)*@[A-z]+(\.[A-z]+)+$/", $Email) === 1;
         }
 
         if( isset($_GET["name-input"]) && isset($_GET["email-input"]) ) {
-          $userName = $_GET["name-input"];
-          $emailValue = $_GET["email-input"];
-          if ( checkEmail($userName . $emailValue) ) {
-            echo "Confirmed!";
-          }
+          $Email = $_GET["name-input"] . $_GET["email-input"];
+          if ( isValidEmail($Email) ) {
+            echo '<span class="form-container__label">Confirmed!</span>';
+            if (($outputFile = fopen("E-mails.txt", "a")) !== false) {
+              fwrite($outputFile, $Email . "\n");
+              fclose($outputFile);
+            }
+          } else echo '<span class="form-container__label">Rejected, try again</span>';
         }
-
       ?>
       </form>
     </main>
