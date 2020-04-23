@@ -61,19 +61,21 @@
           <input class="form-container__submit" type="submit" value="Check">
         <?php
 
-          function isValidEmail($Email) {
-            return preg_match("/^\S+(\.\S+)*@[A-z]+(\.[A-z]+)+$/", $Email) === 1;
+          function isValidEmail($email) {
+            return preg_match("/^\S+(\.\S+)*@[A-z]+(\.[A-z]+)+$/", $email) === 1;
           }
 
           if( isset($_GET["name-input"]) && isset($_GET["email-input"]) ) {
-            $Email = $_GET["name-input"] . $_GET["email-input"];
-            if ( isValidEmail($Email) ) {
+            $email = $_GET["name-input"] . $_GET["email-input"];
+            if ( isValidEmail($email) ) {
               echo '<span class="form-container__label">Confirmed!</span>';
               if (($outputFile = fopen("E-mails.txt", "a")) !== false) {
-                fwrite($outputFile, $Email . "\n");
+                fwrite($outputFile, $email . "\n");
                 fclose($outputFile);
               }
-            } else echo '<span class="form-container__label">Rejected, try again</span>';
+            } else {
+              echo '<span class="form-container__label">Rejected, try again</span>';
+            }
           }
         ?>
         </form>
