@@ -65,12 +65,12 @@
           <input class="form-container__submit" type="submit" value="Add to list">
         </form>
         <?php
-          if( isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["price"]) && isset($_POST["description"])
-              && trim($_POST["id"]) !== '' && trim($_POST["name"]) !== '' && trim($_POST["description"]) !== '' ) {
-            if (($outputFile = fopen("items.csv", "a")) !== FALSE) {
-              fputcsv($outputFile, $_POST);
-              fclose($outputFile);
-            }
+          if (($outputFile = fopen("items.csv", "a")) !== FALSE) {
+            if( isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["price"]) && isset($_POST["description"])
+                && trim($_POST["id"]) !== '' && trim($_POST["name"]) !== '' && trim($_POST["description"]) !== '' ) {
+                fputcsv($outputFile, $_POST);
+              }
+            fclose($outputFile);
           }
         ?>
         <ul class="list-container">
@@ -79,16 +79,16 @@
             if (($inputFile = fopen("items.csv", "r")) !== FALSE) {
               $namesList = '';
               $index = 0;
-              while (($data = fgetcsv($inputFile, 1000, ",")) !== FALSE) {		
-                $namesList .= "<a class=\"list-container__item\" href=\"http://localhost/Web-technologies/Src/Labs.php?index=$index\">$data[1]</a>";
+              while (($data = fgetcsv($inputFile, 0, ",")) !== FALSE) {		
+                $namesList .= sprintf('<a class="list-container__item" href="./Labs.php?index=$index">%s</a>', $data[1]);
                 if ( isset($_GET['index']) && intval($_GET['index']) === $index) {
-                  $itemInfo = "<div class=\"form-3-container\">";
-                  $itemInfo .= "<span class=\"form-container__label\">Id: $data[0]</span>";
-                  $itemInfo .= "<span class=\"form-container__label\">Name: $data[1]</span>";
-                  $itemInfo .= "<span class=\"form-container__label\">Cost: $data[2]</span>";
+                  $itemInfo = '<div class="form-3-container">';
+                  $itemInfo .= sprintf('<span class="form-container__label">Id: %s</span>', $data[0]);
+                  $itemInfo .= sprintf('<span class="form-container__label">Name: %s</span>', $data[1]);
+                  $itemInfo .= sprintf('<span class="form-container__label">Cost: %s</span>', $data[2]);
                   $salePrice = round($data[2] * 0.75, 2);
-                  $itemInfo .= "<span class=\"form-container__label\">Cost with sale: $salePrice</span>";
-                  $itemInfo .= "<p class=\"form-container__label\">Description: $data[3]</p>";
+                  $itemInfo .= sprintf('<span class="form-container__label">Cost with sale: %s</span>', $salePrice);
+                  $itemInfo .= sprintf('<p class="form-container__label">Description: %s</p>', $data[3]);
                   $itemInfo .= "</div>";
                 }
                 $index++;
