@@ -83,10 +83,10 @@
             $articlesTable = '<table class="lab-5-table-container">';
             $articlesTable .= "<td>ID</td><td>First name</td><td>Second name</td><td>Birth date</td>";
             foreach ($rows as $row) {
-              $articlesTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
+              $articlesTable .= sprintf('<a href="#lab-1"><tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr></a>', $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
             }
             $articlesTable .= "</table>";
-            echo $creationsTable, $articlesTable;
+            echo '<h4 class="form-container__header lab-5-container__header">Paintings:</h4>', $creationsTable, '<h4 class="form-container__header lab-5-container__header">Artists:</h4>', $articlesTable;
           ?>
         </div>
       </section>
