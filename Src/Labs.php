@@ -14,6 +14,7 @@
       <ul class="labs-list">
         <a href="#lab-1"><li class="labs-list_item">Lab 1</li></a>
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
+        <a href="#lab-5"><li class="labs-list_item">Lab 5</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
@@ -49,6 +50,45 @@
 
           ?>
         </form>
+      </section>
+      <section class="about-block__section" id="lab-5">
+        <div class="form-container">
+          <h2 class="form-container__header">Lab 5, variant 1</h2>
+          <?php
+            define('DB_HOST', 'localhost');
+            define('DB_USER', 'root');
+            define('DB_PASSWORD', '');
+            define('DB_NAME', 'artists');
+            
+            $mysqli = @new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            if ($mysqli->connect_errno) {
+              exit('Data base connection error.');
+            }
+            $mysqli->set_charset('utf8');
+            $result = $mysqli->query("SELECT creation.id AS id, creation.name AS name, creation.creation_date AS date, fine_arts_artist.first_name AS author
+            FROM creation, fine_arts_artist
+              WHERE creation.artist_id = fine_arts_artist.id
+              ORDER BY creation.name");
+            $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $creationsTable = "<table>";
+            $creationsTable .= "<th><td>ID</td><td>Name</td><td>Date of creation</td><td>Artist</td></th>";
+            foreach ($rows as $row) {
+              $creationsTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $row['id'], $row['name'], $row['date'], $row['author']);
+            }
+            $creationsTable .= "</table>";
+            // echo $creationsTable;
+            $result = $mysqli->query("SELECT id, first_name, second_name, birth_date
+            FROM fine_arts_artist");
+            $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $articlesTable = "<table>";
+            $articlesTable .= "<th><td>ID</td><td>First name</td><td>Second name</td><td>Birth date</td></th>";
+            foreach ($rows as $row) {
+              $articlesTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
+            }
+            $articlesTable .= "</table>";
+            echo $articlesTable, $creationsTable;
+          ?>
+        </div>
       </section>
     </main>
     <footer class="footer-wrapper">
