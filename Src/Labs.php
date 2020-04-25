@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
+  <link rel="stylesheet" type="text/css" href="./Styles/Labs.css">
   <title>About</title>
 </head>
   <body>
@@ -52,8 +53,8 @@
         </form>
       </section>
       <section class="about-block__section" id="lab-5">
-        <div class="form-container">
-          <h2 class="form-container__header">Lab 5, variant 1</h2>
+        <div class="lab-5-container">
+          <h2 class="form-container__header lab-5-container__header">Lab 5, variant 1</h2>
           <?php
             define('DB_HOST', 'localhost');
             define('DB_USER', 'root');
@@ -65,28 +66,27 @@
               exit('Data base connection error.');
             }
             $mysqli->set_charset('utf8');
-            $result = $mysqli->query("SELECT creation.id AS id, creation.name AS name, creation.creation_date AS date, fine_arts_artist.first_name AS author
-            FROM creation, fine_arts_artist
+            $result = $mysqli->query("SELECT creation.id AS id, creation.name AS name, creation.creation_date AS date, first_name, second_name
+              FROM creation, fine_arts_artist
               WHERE creation.artist_id = fine_arts_artist.id
               ORDER BY creation.name");
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            $creationsTable = "<table>";
-            $creationsTable .= "<th><td>ID</td><td>Name</td><td>Date of creation</td><td>Artist</td></th>";
+            $creationsTable = '<table class="lab-5-table-container">';
+            $creationsTable .= "<td>ID</td><td>Name</td><td>Date of creation</td><td>Artist</td>";
             foreach ($rows as $row) {
-              $creationsTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $row['id'], $row['name'], $row['date'], $row['author']);
+              $creationsTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s %s</td></tr>", $row['id'], $row['name'], $row['date'], $row['first_name'], $row['second_name']);
             }
             $creationsTable .= "</table>";
-            // echo $creationsTable;
             $result = $mysqli->query("SELECT id, first_name, second_name, birth_date
             FROM fine_arts_artist");
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            $articlesTable = "<table>";
-            $articlesTable .= "<th><td>ID</td><td>First name</td><td>Second name</td><td>Birth date</td></th>";
+            $articlesTable = '<table class="lab-5-table-container">';
+            $articlesTable .= "<td>ID</td><td>First name</td><td>Second name</td><td>Birth date</td>";
             foreach ($rows as $row) {
               $articlesTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
             }
             $articlesTable .= "</table>";
-            echo $articlesTable, $creationsTable;
+            echo $creationsTable, $articlesTable;
           ?>
         </div>
       </section>
