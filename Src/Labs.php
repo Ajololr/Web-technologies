@@ -14,6 +14,7 @@
       <ul class="labs-list">
         <a href="#lab-1"><li class="labs-list_item">Lab 1</li></a>
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
+        <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
@@ -48,6 +49,35 @@
             }
 
           ?>
+        </form>
+      </section>
+      <section class="about-block__section" id="lab-4">
+        <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
+          <h2 class="form-container__header">Lab 4, variant 1</h2>
+          <label class="form-container__label" for="name-input">Enter name (e.g. Ilya, Ilya.Androsov):</label>
+          <input type="text" name="name-input" id="name-input" require>
+          <label class="form-container__label" for="email-input">Enter mail (e.g @gmail.com):</label>
+          <input type="text" name="email-input" id="email-input" require>
+          <input class="form-container__submit" type="submit" value="Check">
+        <?php
+
+          function isValidEmail($email) {
+            return preg_match("/^\S+(\.\S+)*@[A-z]+(\.[A-z]+)+$/", $email) === 1;
+          }
+
+          if( isset($_GET["name-input"]) && isset($_GET["email-input"]) ) {
+            $email = $_GET["name-input"] . $_GET["email-input"];
+            if ( isValidEmail($email) ) {
+              echo '<span class="form-container__label">Confirmed!</span>';
+              if (($outputFile = fopen("E-mails.txt", "a")) !== false) {
+                fwrite($outputFile, $email . "\n");
+                fclose($outputFile);
+              }
+            } else {
+              echo '<span class="form-container__label">Rejected, try again</span>';
+            }
+          }
+        ?>
         </form>
       </section>
     </main>
