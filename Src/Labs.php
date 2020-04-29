@@ -14,6 +14,7 @@
       <ul class="labs-list">
         <a href="#lab-1"><li class="labs-list_item">Lab 1</li></a>
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
+        <a href="#lab-3"><li class="labs-list_item">Lab 3</li></a>
         <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
       </ul>
       <section class="form-container" id="lab-1">
@@ -51,6 +52,60 @@
           ?>
         </form>
       </section>
+      <div class="lab-container" id="lab-3">
+        <h2 class="form-3-container__header">Lab 3, variant 1</h2>
+        <form action="<?php $_PHP_SELF ?>" method="POST" id="lab-3" class="form-3-container">
+          <label class="form-container__label" for="id">Enter id:</label>
+          <input type="text" name="id" id="id" required>
+          <label class="form-container__label" for="name">Enter name:</label>
+          <input type="text" name="name" id="name" required>
+          <label class="form-container__label" for="price">Enter price:</label>
+          <input type="number" name="price" id="price" required>
+          <label class="form-container__label" for="description">Add description:</label>
+          <textarea class="form-container_message" name="description" id="description" cols="60" rows="10" required></textarea>
+          <input class="form-container__submit" type="submit" value="Add to list">
+        </form>
+        <?php
+          if (($outputFile = fopen("items.csv", "a")) !== FALSE) {
+            if( isset($_POST["id"]) && isset($_POST["name"]) && isset($_POST["price"]) && isset($_POST["description"])
+                && trim($_POST["id"]) !== '' && trim($_POST["name"]) !== '' && trim($_POST["description"]) !== '' ) {
+                fputcsv($outputFile, $_POST);
+              }
+            fclose($outputFile);
+          }
+        ?>
+        <ul class="list-container">
+          <?php
+            $itemInfo = '';
+            if (($inputFile = fopen("items.csv", "r")) !== FALSE) {
+              $namesList = '';
+              $index = 0;
+              while (($data = fgetcsv($inputFile, 0, ",")) !== FALSE) {		
+                $namesList .= sprintf('<a class="list-container__item" href="./Labs.php?index=$index">%s</a>', $data[1]);
+                if ( isset($_GET['index']) && intval($_GET['index']) === $index) {
+                  $itemInfo = '<div class="form-3-container">';
+                  $itemInfo .= sprintf('<span class="form-container__label">Id: %s</span>', $data[0]);
+                  $itemInfo .= sprintf('<span class="form-container__label">Name: %s</span>', $data[1]);
+                  $itemInfo .= sprintf('<span class="form-container__label">Cost: %s</span>', $data[2]);
+                  $salePrice = round($data[2] * 0.75, 2);
+                  $itemInfo .= sprintf('<span class="form-container__label">Cost with sale: %s</span>', $salePrice);
+                  $itemInfo .= sprintf('<p class="form-container__label">Description: %s</p>', $data[3]);
+                  $itemInfo .= "</div>";
+                }
+                $index++;
+              }
+              fclose($inputFile);
+              if ($namesList !== '') {
+                echo $namesList;
+              }
+            }
+
+          ?>
+        </ul>
+        <?php
+          if (isset($itemInfo)) echo $itemInfo;
+        ?>
+      </div>
       <section class="about-block__section" id="lab-4">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 4, variant 1</h2>
