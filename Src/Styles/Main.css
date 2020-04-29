@@ -312,11 +312,13 @@ body {
 }
 
 .form-container__label {
+  margin: 15px;
   font-family: 'Courier New', Courier, monospace;
   display: inline;
 }
 
 .form-container__input {
+  margin: 15px;
   font-family: 'Courier New', Courier, monospace;
   color: white;
   border: none;
@@ -326,6 +328,7 @@ body {
 }
 
 .form-container__submit {
+  margin: 15px;
   font-family: Montserrat;
   color: #ffd700;
   border: 3px solid #ffd700;

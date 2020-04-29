@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
   <link rel="stylesheet" type="text/css" href="./Styles/Labs.css">
-  <title>About</title>
+  <title>Labs</title>
 </head>
   <body>
     <?php 
@@ -139,8 +139,9 @@
       </section>
       <section class="about-block__section" id="lab-5">
         <div class="lab-5-container">
-          <h2 class="form-container__header lab-5-container__header">Lab 5, variant 1</h2>
+          <h2 class="form-container__header lab-5-header">Lab 5, variant 1</h2>
           <?php
+
             define('DB_HOST', 'localhost');
             define('DB_USER', 'root');
             define('DB_PASSWORD', '');
@@ -150,28 +151,104 @@
             if ($mysqli->connect_errno) {
               exit('Data base connection error.');
             }
+          
             $mysqli->set_charset('utf8');
+            
+            if ( isset($_POST["idToDelete"]) ) {
+              $id = intval($_POST["idToDelete"]);
+              $result = $mysqli->query("DELETE FROM `user` WHERE `user`.`id` = $id");
+            } 
+
+            if ( isset($_POST["add_first_name"]) && isset($_POST["add_second_name"]) && isset($_POST["add_nickname"]) ) {
+              $query = sprintf("INSERT INTO user (id, first_name, second_name, nickname) VALUES (NULL, '%s', '%s', '%s')", $_POST['add_first_name'], $_POST['add_second_name'], $_POST['add_nickname']);
+              $result = $mysqli->query($query);
+              if (!$result) echo mysqli_error($mysqli);
+            } 
+
             $result = $mysqli->query("SELECT creation.id AS id, creation.name AS name, creation.creation_date AS date, first_name, second_name
               FROM creation, fine_arts_artist
               WHERE creation.artist_id = fine_arts_artist.id
               ORDER BY creation.name");
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
             $creationsTable = '<table class="lab-5-table-container">';
-            $creationsTable .= "<td>ID</td><td>Name</td><td>Date of creation</td><td>Artist</td>";
+            $creationsTable .= "<tr><td>ID</td><td>Name</td><td>Date of creation</td><td>Artist</td></tr>";
             foreach ($rows as $row) {
               $creationsTable .= sprintf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s %s</td></tr>", $row['id'], $row['name'], $row['date'], $row['first_name'], $row['second_name']);
             }
             $creationsTable .= "</table>";
+
             $result = $mysqli->query("SELECT id, first_name, second_name, birth_date
-            FROM fine_arts_artist");
+              FROM fine_arts_artist");
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
             $articlesTable = '<table class="lab-5-table-container">';
             $articlesTable .= "<td>ID</td><td>First name</td><td>Second name</td><td>Birth date</td>";
             foreach ($rows as $row) {
-              $articlesTable .= sprintf('<a href="#lab-1"><tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr></a>', $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
+              $articlesTable .= sprintf('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>', $row['id'], $row['first_name'], $row['second_name'], $row['birth_date']);
             }
             $articlesTable .= "</table>";
-            echo '<h4 class="form-container__header lab-5-container__header">Paintings:</h4>', $creationsTable, '<h4 class="form-container__header lab-5-container__header">Artists:</h4>', $articlesTable;
+
+            $result = $mysqli->query("SELECT id, first_name, second_name, nickname
+              FROM user");
+            $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $usersTable = '<table class="lab-5-table-container">';
+            $usersTable .= "<td>ID</td><td>First name</td><td>Second name</td><td>Nickname</td>";
+            foreach ($rows as $row) {
+              $usersTable .= sprintf('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>', $row['id'], $row['first_name'], $row['second_name'], $row['nickname']);
+            }
+            $usersTable .= "</table>";
+            echo '<h4 class="form-container__header lab-5-header">Paintings:</h4>', $creationsTable, '<h4 class="form-container__header lab-5-header">Artists:</h4>', $articlesTable, '<h4 class="form-container__header lab-5-header">Users:</h4>', $usersTable;
+          ?>
+
+          <form action="<?php $_PHP_SELF ?>" method="POST" class="form-3-container">
+            <h2 class="form-container__header">Add user:</h2>
+            <span class="form-container__label">First name:</span>
+            <input class="form-container__input" type="text" name="add_first_name" id="add_first_name" required>
+            <span class="form-container__label">Second name:</span> 
+            <input class="form-container__input" type="text" name="add_second_name" id="add_second_name" required>
+            <span class="form-container__label">Nickname:</span> 
+            <input class="form-container__input" type="text" name="add_nickname" id="add_nickname" required>
+            <input class="form-container__submit" type="submit" value="Add user">
+          </form>
+
+          <?php
+            $userInfo = '';
+            $usersList = '';
+            $id = '';
+            foreach ($rows as $row) {
+              $usersList .= sprintf('<a class="list-container__item" href="./Labs.php?UserId=%s"> %s %s</a>', $row["id"], $row["first_name"], $row["second_name"]);
+              if ( isset($_GET['UserId']) && $_GET['UserId'] === $row['id'] ) {
+                $id = intval($_GET['UserId']);
+                $result = $mysqli->query("SELECT * FROM `user` WHERE `id` = $id");
+                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $userInfo .= sprintf('<span class="form-container__label">First name:</span> <input class="form-container__input" type="text" name="change_first_name" id="change_first_name" value="%s" required>', $row['first_name']);
+                $userInfo .= sprintf('<span class="form-container__label">Second name:</span> <input class="form-container__input" type="text" name="change_second_name" id="change_second_name" value="%s" required>', $row['second_name']);
+                $userInfo .= sprintf('<span class="form-container__label">Nickname:</span> <input class="form-container__input" type="text" name="change_nickname" id="change_nickname" value="%s" required>', $row['nickname']);
+                $userInfo .= sprintf('<input class="form-container__submit" type="submit" value="Change">');
+              }
+            }
+          ?>
+
+          <ul class="list-container">
+            <?php
+              if ($usersList !== '') {
+                echo $usersList;
+              }
+            ?>
+          </ul>
+
+          <form action="<?php $_PHP_SELF ?>" method="POST" class="form-3-container">
+            <?php
+              echo $userInfo;
+            ?>
+          </form>
+
+          <?php 
+            if ( $id !== '' ) {
+              echo sprintf('<form action="./Labs.php" method="POST" class="form-3-container">
+                <input style="display: none;" name="idToDelete" type="number" value="%d">
+                <input class="form-container__submit" type="submit" value="Delete">
+              </form>', $id);
+            }
           ?>
         </div>
     </main>
