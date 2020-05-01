@@ -16,6 +16,7 @@
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
         <a href="#lab-3"><li class="labs-list_item">Lab 3</li></a>
         <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
+        <a href="#lab-6"><li class="labs-list_item">Lab 6</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
@@ -132,6 +133,43 @@
               echo '<span class="form-container__label">Rejected, try again</span>';
             }
           }
+        ?>
+        </form>
+      </section>
+      <section class="about-block__section" id="lab-6">
+        <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
+          <h2 class="form-container__header">Lab 6, variant 1</h2>
+          <label class="form-container__label" for="header-color">Choose header color:</label>
+          <input type="color" name="header-color" id="header-color" require>
+          <label class="form-container__label" for="header-font-size">Choose header font size:</label>
+          <select id="header-font-size" name="header-font-size">
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+          </select>
+          <label class="form-container__label" for="paragraph-color">Choose paragraph color:</label>
+          <input type="color" name="paragraph-color" id="paragraph-color" require>
+          <label class="form-container__label" for="paragraph-font-size">Choose paragraph font size:</label>
+          <select id="paragraph-font-size" name="paragraph-font-size">
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+          </select>
+          <label class="form-container__label" for="background-color">Choose background color:</label>
+          <input type="color" name="background-color" id="background-color" require>
+          <input class="form-container__submit" type="submit" value="Apply">
+        <?php
+
         ?>
         </form>
       </section>
