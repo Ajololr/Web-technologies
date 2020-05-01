@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
-  <title>About</title>
+  <title>Labs</title>
 </head>
   <body>
     <?php 
@@ -148,10 +148,56 @@
           <label class="form-container__label" for="user-theme-input">Theme:</label>
           <input type="text" name="user-theme-input" id="user-theme-input" require>
           <label class="form-container__label" for="user-message-input">Message:</label>
-          <textarea class="form-container_message" name="user-message-input" id="user-message-input" cols="60" rows="10"></textarea>
+          <textarea class="form-container_message" name="user-message-input" id="user-message-input" cols="60" rows="10" require></textarea>
           <input class="form-container__submit" type="submit" value="Send">
           <?php
+            function isValidTel($tel) {
+            return preg_match("/^\+?\d{12}$/", $tel) === 1;
+            }
 
+            require 'includes/PHPMailer.php';
+            require 'includes/SMTP.php';
+            require 'includes/Exception.php';
+
+            use PHPMailer\PHPMailer\PHPMailer;
+            use PHPMailer\PHPMailer\SMTP;
+            use PHPMailer\PHPMailer\Exception;
+
+
+            if ( isset($_POST['user-name-input']) &&
+            isset($_POST['user-tel-input']) &&
+            isset($_POST['user-email-input']) &&
+            isset($_POST['user-theme-input']) &&
+            isset($_POST['user-message-input']) ) {
+              $name = $_POST['user-name-input'];
+              $tel = $_POST['user-tel-input'];
+              $email = $_POST['user-email-input'];
+              $theme = $_POST['user-theme-input'];
+              $message = $_POST['user-message-input'];
+              if (filter_var($email, FILTER_VALIDATE_EMAIL) && trim($name) !== "" && trim($theme) !== "" && trim($message) !== "" && isValidTel($tel)) {
+                $responseMessage = "Thanks for this message, $name, we will contact you soon.";
+
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = 'true';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = '587';
+                $mail->Username = 'androsov.lab.7@gmail.com';
+                $mail->Password = 'androsovlab7';
+                $mail->Subject = $email;
+                $mail->setFrom('androsov.lab.7@gmail.com');
+                $mail->Body = $responseMessage;
+                $mail->addAddress($email);
+                if($mail->Send()) {
+                  echo "Mail was send";
+                } else {
+                  echo "Message could not be sent. Check your data";
+                } 
+              } else {
+                echo "Some field were filled incorrectly. Try again";
+              }   
+            }
           ?>
         </form>
       </section>
