@@ -16,12 +16,13 @@
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
         <a href="#lab-3"><li class="labs-list_item">Lab 3</li></a>
         <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
+        <a href="#lab-7"><li class="labs-list_item">Lab 7</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
         <h2 class="form-container__header">This web site was the first lab.</h2>
       </section>
-      <section class="about-block__section" id="lab-2">
+      <section id="lab-2">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 2, variant 1</h2>
           <label class="form-container__label" for="cities-input">Enter cities sequence:</label>
@@ -106,7 +107,7 @@
           if (isset($itemInfo)) echo $itemInfo;
         ?>
       </div>
-      <section class="about-block__section" id="lab-4">
+      <section id="lab-4">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 4, variant 1</h2>
           <label class="form-container__label" for="name-input">Enter name (e.g. Ilya, Ilya.Androsov):</label>
@@ -133,6 +134,25 @@
             }
           }
         ?>
+        </form>
+      </section>
+      <section id="lab-7">
+        <form action="<?php $_PHP_SELF ?>" method="POST" class="form-container">
+          <h2 class="form-container__header">Lab 7, variant 1</h2>
+          <label class="form-container__label" for="user-name-input">Your name:</label>
+          <input type="text" name="user-name-input" id="user-name-input" require>
+          <label class="form-container__label" for="user-tel-input">Your phone number:</label>
+          <input type="tel" name="user-tel-input" id="user-tel-input" require>
+          <label class="form-container__label" for="user-email-input">Your mail (e.g user@gmail.com):</label>
+          <input type="mail" name="user-email-input" id="user-email-input" require>
+          <label class="form-container__label" for="user-theme-input">Theme:</label>
+          <input type="text" name="user-theme-input" id="user-theme-input" require>
+          <label class="form-container__label" for="user-message-input">Message:</label>
+          <textarea class="form-container_message" name="user-message-input" id="user-message-input" cols="60" rows="10"></textarea>
+          <input class="form-container__submit" type="submit" value="Send">
+          <?php
+
+          ?>
         </form>
       </section>
     </main>
