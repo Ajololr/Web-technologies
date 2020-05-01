@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
-  <title>About</title>
+  <title>Labs</title>
 </head>
   <body>
     <?php 
@@ -16,12 +16,13 @@
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
         <a href="#lab-3"><li class="labs-list_item">Lab 3</li></a>
         <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
+        <a href="#lab-7"><li class="labs-list_item">Lab 7</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
         <h2 class="form-container__header">This web site was the first lab.</h2>
       </section>
-      <section class="about-block__section" id="lab-2">
+      <section id="lab-2">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 2, variant 1</h2>
           <label class="form-container__label" for="cities-input">Enter cities sequence:</label>
@@ -106,7 +107,7 @@
           if (isset($itemInfo)) echo $itemInfo;
         ?>
       </div>
-      <section class="about-block__section" id="lab-4">
+      <section id="lab-4">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 4, variant 1</h2>
           <label class="form-container__label" for="name-input">Enter name (e.g. Ilya, Ilya.Androsov):</label>
@@ -133,6 +134,71 @@
             }
           }
         ?>
+        </form>
+      </section>
+      <section id="lab-7">
+        <form action="<?php $_PHP_SELF ?>" method="POST" class="form-container">
+          <h2 class="form-container__header">Lab 7, variant 1</h2>
+          <label class="form-container__label" for="user-name-input">Your name:</label>
+          <input type="text" name="user-name-input" id="user-name-input" require>
+          <label class="form-container__label" for="user-tel-input">Your phone number:</label>
+          <input type="tel" name="user-tel-input" id="user-tel-input" require>
+          <label class="form-container__label" for="user-email-input">Your mail (e.g user@gmail.com):</label>
+          <input type="mail" name="user-email-input" id="user-email-input" require>
+          <label class="form-container__label" for="user-theme-input">Theme:</label>
+          <input type="text" name="user-theme-input" id="user-theme-input" require>
+          <label class="form-container__label" for="user-message-input">Message:</label>
+          <textarea class="form-container_message" name="user-message-input" id="user-message-input" cols="60" rows="10" require></textarea>
+          <input class="form-container__submit" type="submit" value="Send">
+          <?php
+            function isValidTel($tel) {
+            return preg_match("/^\+?\d{12}$/", $tel) === 1;
+            }
+
+            require 'includes/PHPMailer.php';
+            require 'includes/SMTP.php';
+            require 'includes/Exception.php';
+
+            use PHPMailer\PHPMailer\PHPMailer;
+            use PHPMailer\PHPMailer\SMTP;
+            use PHPMailer\PHPMailer\Exception;
+
+
+            if ( isset($_POST['user-name-input']) &&
+            isset($_POST['user-tel-input']) &&
+            isset($_POST['user-email-input']) &&
+            isset($_POST['user-theme-input']) &&
+            isset($_POST['user-message-input']) ) {
+              $name = $_POST['user-name-input'];
+              $tel = $_POST['user-tel-input'];
+              $email = $_POST['user-email-input'];
+              $theme = $_POST['user-theme-input'];
+              $message = $_POST['user-message-input'];
+              if (filter_var($email, FILTER_VALIDATE_EMAIL) && trim($name) !== "" && trim($theme) !== "" && trim($message) !== "" && isValidTel($tel)) {
+                $responseMessage = "Thanks for this message, $name, we will contact you soon.";
+
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = 'true';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = '587';
+                $mail->Username = 'androsov.lab.7@gmail.com';
+                $mail->Password = 'androsovlab7';
+                $mail->Subject = $email;
+                $mail->setFrom('androsov.lab.7@gmail.com');
+                $mail->Body = $responseMessage;
+                $mail->addAddress($email);
+                if($mail->Send()) {
+                  echo "Mail was send";
+                } else {
+                  echo "Message could not be sent. Check your data";
+                } 
+              } else {
+                echo "Some field were filled incorrectly. Try again";
+              }   
+            }
+          ?>
         </form>
       </section>
     </main>
