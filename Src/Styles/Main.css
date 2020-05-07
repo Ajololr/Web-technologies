@@ -251,9 +251,54 @@ body {
   }
 }
 
-.form-container {
+.lab-container {
   width: 100%;
   height: 95vh;
+  display: grid;
+  grid-template-columns: 40% 20% 40%;
+  grid-template-rows: 10% 90%;
+  background-color: #022e45;
+}
+
+.form-3-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  padding: 10px;
+}
+
+.form-3-container__header {
+  color: #ffd700;
+  grid-column: 1/4;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding: 10px;
+}
+
+.list-container__item {
+  width: 100%;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+  border: 3px solid #ffd700;
+  background: none;
+  margin: 5px 0;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-container {
+  width: 100%;
+  height: 100vh;
   background-color: #022e45;
   display: flex;
   flex-direction: column;
