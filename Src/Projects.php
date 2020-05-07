@@ -1,3 +1,6 @@
+<?php
+  include './Language.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,29 +8,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Projects.css">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
-  <title>About</title>
+  <title><?php echo $textValues["PROJECTS_PAGE_TITLE"]; ?></title>
 </head>
   <body>
     <?php 
       include './Nav.php';
     ?>
     <main class="projects-block">
-      <h1 class="projects-block__header">My completed projects<br>Just click on the image</h1>
+      <h1 class="projects-block__header"><?php echo $textValues["PROJECTS_TITLE"]; ?></h1>
       <section class="projects-block__proj">
-        <h2 class="proj__name">Writer of Belarus</h2>
+        <h2 class="proj__name"><?php echo $textValues["WRITERS_PROJECT"]; ?></h2>
         <a class="proj__link" href="https://culture-portal-rss20.netlify.com/"><img class="proj__image" src="./Assets/Images/Writers.png" alt=""></a>
         <ul class="proj__features-list">
           <li class="features-list__item">
-            Build with React
+            <?php echo $textValues["USED_REACT"]; ?>
           </li>
           <li class="features-list__item">
-            Used bootstrap
+            <?php echo $textValues["USED_BOOTSTRAP"]; ?>
           </li>
           <li class="features-list__item">
             Sass
           </li>
           <li class="features-list__item">
-            Teamwork
+            <?php echo $textValues["USED_TEAMWORK"]; ?>
           </li>
         </ul>
       </section>
@@ -36,13 +39,13 @@
         <a class="proj__link" href="https://song-bird-ajololr.netlify.com/"><img class="proj__image" src="./Assets/Images/Birds.png" alt=""></a>
         <ul class="proj__features-list">
           <li class="features-list__item">
-            Build with React
+            <?php echo $textValues["USED_REACT"]; ?>
           </li>
           <li class="features-list__item">
             Sass
           </li>
           <li class="features-list__item">
-            API usage
+            <?php echo $textValues["USED_API"]; ?>
           </li>
         </ul>
       </section>
@@ -51,13 +54,13 @@
         <a class="proj__link" href="https://ajololr-fancy-weather.netlify.com/"><img class="proj__image" src="./Assets/Images/Weather.png" alt=""></a>
         <ul class="proj__features-list">
           <li class="features-list__item">
-            Pure JS
+            <?php echo $textValues["USED_JS"]; ?>
           </li>
           <li class="features-list__item">
             Sass
           </li>
           <li class="features-list__item">
-            API usage
+            <?php echo $textValues["USED_API"]; ?>
           </li>
         </ul>
       </section>
@@ -66,30 +69,19 @@
         <a class="proj__link" href="https://ajololr-simple-piskel-clone.netlify.com/app.html"><img class="proj__image" src="./Assets/Images/Piskel.png" alt=""></a>
         <ul class="proj__features-list">
           <li class="features-list__item">
-            Pure JS
+            <?php echo $textValues["USED_JS"]; ?>
           </li>
           <li class="features-list__item">
             Sass
           </li>
           <li class="features-list__item">
-            Saved user session
+            <?php echo $textValues["USED_SESSION"]; ?>
           </li>
         </ul>
       </section>
     </main>
-    <footer class="footer-wrapper">
-      <div class="socials-block">
-        <span class="socials-block__text">Social media:</span>
-        <ul class="socials-block__list">
-          <li class="socials-block__list_item"><a href="https://github.com/Ajololr"><img src="./Assets/Icons/github.svg" alt=""></a></li>
-          <li class="socials-block__list_item"><a href="https://vk.com/andrik0099"><img src="./Assets/Icons/vk.svg" alt=""></a></li>
-          <li class="socials-block__list_item"><a href="https://www.linkedin.com/in/%D0%B8%D0%BB%D1%8C%D1%8F-%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D1%81%D0%BE%D0%B2-48ba35198/"><img src="./Assets/Icons/linkedin.svg" alt=""></a></li>
-        </ul>
-      </div>
-      <div class="tel-block">
-        <span class="tel-block_text">Telephone:</span>
-        <a class="tel-block__value" href="tel:+375-29-804-26-89">+375-29-804-26-89</a>
-      </div>
-    </footer>
+    <?php
+      include './Footer.php';
+    ?>
   </body>
 </html>
