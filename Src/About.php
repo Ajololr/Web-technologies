@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="./Styles/About.css">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
   <link rel="stylesheet" type="text/css" href="./Styles/Language.css">
-  <title>About</title>
+  <title><?php echo $textValues["ABOUT_ME_PAGE_TITLE"]; ?></title>
 </head>
   <body>
     <?php 
