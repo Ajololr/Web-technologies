@@ -1,3 +1,6 @@
+<?php
+  include './Language.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +17,7 @@
       <ul class="labs-list">
         <a href="#lab-1"><li class="labs-list_item">Lab 1</li></a>
         <a href="#lab-2"><li class="labs-list_item">Lab 2</li></a>
+        <a href="#lab-8"><li class="labs-list_item">Lab 8</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
@@ -50,20 +54,13 @@
           ?>
         </form>
       </section>
+      <section class="form-container" id="lab-8">
+        <h2 class="form-container__header">Lab 8, variant 1</h2>
+        <h2 class="form-container__header">Translation for this web site is the last lab.</h2>
+      </section>
     </main>
-    <footer class="footer-wrapper">
-      <div class="socials-block">
-        <span class="socials-block__text">Social media:</span>
-        <ul class="socials-block__list">
-          <li class="socials-block__list_item"><a href="https://github.com/Ajololr"><img src="./Assets/Icons/github.svg" alt=""></a></li>
-          <li class="socials-block__list_item"><a href="https://vk.com/andrik0099"><img src="./Assets/Icons/vk.svg" alt=""></a></li>
-          <li class="socials-block__list_item"><a href="https://www.linkedin.com/in/%D0%B8%D0%BB%D1%8C%D1%8F-%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D1%81%D0%BE%D0%B2-48ba35198/"><img src="./Assets/Icons/linkedin.svg" alt=""></a></li>
-        </ul>
-      </div>
-      <div class="tel-block">
-        <span class="tel-block_text">Telephone:</span>
-        <a class="tel-block__value" href="tel:+375-29-804-26-89">+375-29-804-26-89</a>
-      </div>
-    </footer>
+    <?php
+      include './Footer.php';
+    ?>
   </body>
 </html>
