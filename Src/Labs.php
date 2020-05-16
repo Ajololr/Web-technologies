@@ -1,9 +1,50 @@
+<?php
+  function setUserSettingsFile($source) {
+    if (($outputFile = fopen("./Styles/UserSettings.css", "w")) !== FALSE) {
+      $headerSize = $source['header-font-size'] . 'pt';
+      $headerColor = $source['header-color'];
+      $paragraphSize = $source['paragraph-font-size'] . 'pt';
+      $paragraphColor = $source['paragraph-color'];
+      $backgroundColor = $source['background-color'];
+      $result = ".user-header {\n\tfont-size: $headerSize;\n\tcolor: $headerColor;\n}\n";
+      $result .= ".user-p {\n\tfont-size: $paragraphSize;\n\tcolor: $paragraphColor;\n}\n";
+      $result .= ".user-background {\n\tbackground-color: $backgroundColor;\n}";
+      fwrite($outputFile, $result);
+      fclose($outputFile);
+    }
+  }
+
+  if( isset($_POST['header-color']) && isset($_POST['header-font-size'])
+  && isset($_POST['paragraph-color']) && isset($_POST['paragraph-font-size'])
+  && isset($_POST['background-color']) ) {
+    setcookie('header-color', $_POST['header-color'], time() + 5 * 60);
+    setcookie('header-font-size', $_POST['header-font-size'], time() + 5 * 60);
+    setcookie('paragraph-color', $_POST['paragraph-color'], time() + 5 * 60);
+    setcookie('paragraph-font-size', $_POST['paragraph-font-size'], time() + 5 * 60);
+    setcookie('background-color', $_POST['background-color'], time() + 5 * 60);
+
+    setUserSettingsFile($_POST);
+
+  } else if( isset($_COOKIE['header-color']) && isset($_COOKIE['header-font-size'])
+  && isset($_COOKIE['paragraph-color']) && isset($_COOKIE['paragraph-font-size'])
+  && isset($_COOKIE['background-color']) ) {
+
+    setUserSettingsFile($_COOKIE);
+    
+  } else {
+    if (($outputFile = fopen("./Styles/UserSettings.css", "w")) !== FALSE) {
+      fwrite($outputFile, "");
+      fclose($outputFile);
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./Styles/Main.css">
+  <link rel="stylesheet" type="text/css" href="./Styles/UserSettings.css">
   <link rel="stylesheet" type="text/css" href="./Styles/Labs.css">
   <title>Labs</title>
 </head>
@@ -18,12 +59,13 @@
         <a href="#lab-3"><li class="labs-list_item">Lab 3</li></a>
         <a href="#lab-4"><li class="labs-list_item">Lab 4</li></a>
         <a href="#lab-5"><li class="labs-list_item">Lab 5</li></a>
+        <a href="#lab-6"><li class="labs-list_item">Lab 6</li></a>
       </ul>
       <section class="form-container" id="lab-1">
         <h2 class="form-container__header">Lab 1</h2>
         <h2 class="form-container__header">This web site was the first lab.</h2>
       </section>
-      <section class="about-block__section" id="lab-2">
+      <section id="lab-2">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 2, variant 1</h2>
           <label class="form-container__label" for="cities-input">Enter cities sequence:</label>
@@ -108,7 +150,7 @@
           if (isset($itemInfo)) echo $itemInfo;
         ?>
       </div>
-      <section class="about-block__section" id="lab-4">
+      <section id="lab-4">
         <form action="<?php $_PHP_SELF ?>" method="GET" class="form-container">
           <h2 class="form-container__header">Lab 4, variant 1</h2>
           <label class="form-container__label" for="name-input">Enter name (e.g. Ilya, Ilya.Androsov):</label>
@@ -251,6 +293,41 @@
             }
           ?>
         </div>
+      </section>
+      <section id="lab-6">
+        <form action="<?php $_PHP_SELF ?>" method="POST" class="form-container user-background">
+          <h2 class="form-container__header user-header">Lab 6, variant 1</h2>
+          <label class="form-container__label user-p" for="header-color">Choose header color:</label>
+          <input type="color" name="header-color" id="header-color" require>
+          <label class="form-container__label user-p" for="header-font-size">Choose header font size:</label>
+          <select id="header-font-size" name="header-font-size" require>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+          </select>
+          <label class="form-container__label user-p" for="paragraph-color">Choose paragraph color:</label>
+          <input type="color" name="paragraph-color" id="paragraph-color" require>
+          <label class="form-container__label user-p" for="paragraph-font-size">Choose paragraph font size:</label>
+          <select id="paragraph-font-size" name="paragraph-font-size" require>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+          </select>
+          <label class="form-container__label user-p" for="background-color">Choose background color:</label>
+          <input type="color" name="background-color" id="background-color" require>
+          <input class="form-container__submit" type="submit" value="Apply">
+        </form>
+      </section>
     </main>
     <footer class="footer-wrapper">
       <div class="socials-block">
