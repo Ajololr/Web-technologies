@@ -155,14 +155,11 @@
             return preg_match("/^\+?\d{12}$/", $tel) === 1;
             }
 
-            require 'includes/PHPMailer.php';
-            require 'includes/SMTP.php';
-            require 'includes/Exception.php';
-
             use PHPMailer\PHPMailer\PHPMailer;
             use PHPMailer\PHPMailer\SMTP;
             use PHPMailer\PHPMailer\Exception;
-
+            
+            require 'vendor/autoload.php';
 
             if ( isset($_POST['user-name-input']) &&
             isset($_POST['user-tel-input']) &&
